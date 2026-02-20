@@ -34,7 +34,7 @@ jobs:
 
           PIDS=()
           for i in {1..64}; do
-            sudo timeout 30 perl Hoplatici.pl "$TARGET" "$PORT" 1400 30 &
+            sudo timeout 60 perl Hoplatici.pl "$TARGET" "$PORT" 1400 60 &
             PIDS+=($!)
           done
 
@@ -44,5 +44,5 @@ jobs:
 
       - name: Finish !
         run: |
-          sleep 30
+          sleep 60
           exit 0
